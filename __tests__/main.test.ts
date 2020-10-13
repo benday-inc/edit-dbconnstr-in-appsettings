@@ -79,7 +79,8 @@ test('set new connection string in an appsettings.json file with existing connec
 })
 
 test('modify existing connection string in an appsettings.json file', () => {
-  var pathToTempConfigFile = createCopyOfSampleFile("sample-appsettings-with-connection-strings.json");
+  var pathToTempConfigFile = createCopyOfSampleFile(
+    "sample-appsettings-with-connection-strings.json");
 
   const expectedConnectionStringName = 'connstr1';
   process.env['INPUT_NAME'] = expectedConnectionStringName;
