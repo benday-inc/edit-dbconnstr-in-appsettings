@@ -1,11 +1,19 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'edit-appsettings-db-connection-string'
+description: 'Edit a connection string for .NET Core in appsettings.json'
+author: 'Benjamin Day Consulting, Inc.'
 inputs:
-  milliseconds: # change this
+  name:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'name of the connection string'
+    default: 'default'
+  connectionString:
+    required: true
+    description: 'value for the connection string'
+    default: ''
+  pathToSettingsFile:
+    required: true
+    description: 'path to your appsettings.json file'
+    default: 'appsettings.json'
 runs:
   using: 'node12'
   main: 'dist/index.js'

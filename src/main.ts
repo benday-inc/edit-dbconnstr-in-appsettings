@@ -1,16 +1,33 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import { JsonEditor } from './JsonEditor'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const name: string = core.getInput('name');
+    core.debug(`Connection string name: ${name} ...`); 
 
-    core.setOutput('time', new Date().toTimeString())
+    const pathToSettingsFile: string = core.getInput('pathToSettingsFile');
+    core.debug(`Settings file: ${pathToSettingsFile} ...`);
+
+    const connStringValue: string = core.getInput('connectionString');
+    core.debug(`Connection string value: ${connStringValue} ...`) 
+    
+    let editor = new JsonEditor();
+
+    core.debug('Opening file...');
+    editor.open(pathToSettingsFile);
+    core.debug('File opened.');
+
+    core.debug('Setting connection string value...');
+    editor.setConnectionString(name, connStringValue);
+    core.debug('Connection string value set.');
+
+    core.debug('Saving changes...');
+    editor.save(pathToSettingsFile);
+    core.debug('Changes saved.');
+
   } catch (error) {
     core.setFailed(error.message)
   }
