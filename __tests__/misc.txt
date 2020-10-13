@@ -6,3 +6,7 @@ npm test
 To publish...
 npm run build
 npm run package
+
+Create a tag that can be published to the marketplace...
+git tag -a -m "create a tag" v1
+git push --follow-tags
