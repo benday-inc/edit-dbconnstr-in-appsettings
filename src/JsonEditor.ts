@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as core from '@actions/core'
 
 export class JsonEditor {
     public Contents: string;
@@ -10,11 +11,29 @@ export class JsonEditor {
     }
 
     public open(filename: string): void {
-        const contents = fs.readFileSync(filename, "utf8");
+        try {
 
-        this.Contents = contents;
-        this.PathToFile = filename;
-        this.ContentsAsJson = JSON.parse(this.Contents.replace(/^\uFEFF/, ""));
+            core.debug('opening file...');
+            const contents = fs.readFileSync(filename, "utf8");
+            core.debug('file opened.');
+
+            this.Contents = contents;
+
+            if (contents.trim().length === 0)
+            {
+               this.Contents = "{}";
+            }
+
+            this.PathToFile = filename;
+
+            core.debug('Parsing json...');
+            this.ContentsAsJson = JSON.parse(this.Contents.replace(/^\uFEFF/, ""));
+            core.debug('Json parse complete.');
+
+        } catch (error) {
+            core.debug(error);
+            throw error;
+        }
     }
 
     public save(filename: string): void {
