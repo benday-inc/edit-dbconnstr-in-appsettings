@@ -1,0 +1,8 @@
+To test...
+
+npm run-script build
+npm test
+
+To publish...
+npm run build
+npm run package
