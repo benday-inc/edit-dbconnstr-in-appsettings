@@ -37,15 +37,15 @@ class JsonEditor {
     open(filename) {
         try {
             core.debug('opening file...');
-            const contents = fs.readFileSync(filename, "utf8");
+            const contents = fs.readFileSync(filename, 'utf8');
             core.debug('file opened.');
             this.Contents = contents;
             if (contents.trim().length === 0) {
-                this.Contents = "{}";
+                this.Contents = '{}';
             }
             this.PathToFile = filename;
             core.debug('Parsing json...');
-            this.ContentsAsJson = JSON.parse(this.Contents.replace(/^\uFEFF/, ""));
+            this.ContentsAsJson = JSON.parse(this.Contents.replace(/^\uFEFF/, ''));
             core.debug('Json parse complete.');
         }
         catch (error) {
@@ -54,13 +54,13 @@ class JsonEditor {
         }
     }
     save(filename) {
-        fs.writeFileSync(filename, JSON.stringify(this.ContentsAsJson), "utf8");
+        fs.writeFileSync(filename, JSON.stringify(this.ContentsAsJson), 'utf8');
     }
     getConnectionString(key) {
-        return this.getValue("ConnectionStrings", key);
+        return this.getValue('ConnectionStrings', key);
     }
     setConnectionString(key, value) {
-        this.setValue(value, "ConnectionStrings", key);
+        this.setValue(value, 'ConnectionStrings', key);
     }
     getValue(key1, key2 = null, key3 = null) {
         if (this.ContentsAsJson === null) {
@@ -178,7 +178,7 @@ function run() {
             const connStringValue = core.getInput('connectionstring');
             core.debug(`Connection string value: ${connStringValue} ...`);
             core.debug('Creating instance of json editor...');
-            let editor = new JsonEditor_1.JsonEditor();
+            const editor = new JsonEditor_1.JsonEditor();
             core.debug('Json editor created.');
             core.debug('Opening file...');
             editor.open(pathToSettingsFile);
