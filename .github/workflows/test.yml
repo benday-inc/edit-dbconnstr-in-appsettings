@@ -23,4 +23,9 @@ jobs:
         run: ls -lR
         working-directory: '${{ github.workspace }}'
       - uses: ./
+        with:
+          name: 'default'
+          connectionstring: 'asdf asdf'
+          pathtosettingsfile: '${{ github.workspace }}/__tests__/empty-json-sample-appsettings.json'
+
         
