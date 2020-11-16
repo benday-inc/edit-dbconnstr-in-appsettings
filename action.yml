@@ -1,4 +1,4 @@
-name: 'Edit .net core database connection string in appsettings.json'
+name: 'Edit a .NET Core database connection string in appsettings.json'
 description: 'Edit a connection string for .NET Core in appsettings.json'
 author: 'Benjamin Day Consulting, Inc.'
 inputs:

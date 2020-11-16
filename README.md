@@ -1,4 +1,4 @@
-![build-test](https://github.com/benday/action-edit-dbconnstr-in-appsettings/workflows/build-test/badge.svg)
+![build-test](https://github.com/benday-inc/edit-dbconnstr-in-appsettings/workflows/build-test/badge.svg)
 
 # Edit a .net core connection string in appsettings.json
 
@@ -9,7 +9,7 @@ This action helps you to edit the connection strings in your appsettings.json fi
 To edit a connection string inside of an appsettings.json file:  
 ```yaml
 - name: edit connection string
-  uses: benday/action-edit-dbconnstr-in-appsettings@main
+  uses: benday-inc/edit-dbconnstr-in-appsettings@main
   with:
     pathtosettingsfile: '${{ github.workspace }}/Benday.Demo123/src/Benday.Demo123.WebUi/appsettings.json'
     name: "default"
