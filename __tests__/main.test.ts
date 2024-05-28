@@ -190,6 +190,8 @@ function createCopyOfSampleFile(sampleFilename: string) {
 
   var pathToTempConfigFile = path.join(pathToTempDirForThisRun, sampleFilename)
 
+  console.log(`Copying ${pathToFile} to ${pathToTempConfigFile}`)
+
   fs.copyFileSync(pathToFile, pathToTempConfigFile)
   return pathToTempConfigFile
 }
