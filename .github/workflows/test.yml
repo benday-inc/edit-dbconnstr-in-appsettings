@@ -11,7 +11,10 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - run: |
           npm install
       - run: |
@@ -19,7 +22,10 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
@@ -35,10 +41,10 @@ jobs:
     if: github.base_ref == 'main' && github.actor == 'dependabot[bot]'
     steps:
       - name: Merge
-        uses: actions/github-script@0.2.0
+        uses: actions/github-script@v7
         with:
           script: |
-            github.pullRequests.merge({
+            github.rest.pulls.merge({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               pull_number: context.payload.pull_request.number

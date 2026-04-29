@@ -1,0 +1,74 @@
+name: 'release'
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    name: Build and release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build, lint, package, and test
+        run: npm run all
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        id: bump
+        run: |
+          NEW_VERSION=$(npm version ${{ inputs.version_bump }} --no-git-tag-version)
+          echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Bumped to ${NEW_VERSION}"
+
+      - name: Commit dist and version bump
+        run: |
+          git add dist/ package.json package-lock.json
+          git commit -m "chore: release ${{ steps.bump.outputs.new_version }}"
+
+      - name: Create versioned tag and update floating major tag
+        run: |
+          VERSION="${{ steps.bump.outputs.new_version }}"
+          MAJOR_TAG="v$(echo "${VERSION}" | cut -d. -f1 | tr -d 'v')"
+          git tag "${VERSION}"
+          git tag -f "${MAJOR_TAG}"
+          git push origin HEAD:main
+          git push origin "${VERSION}"
+          git push origin "${MAJOR_TAG}" --force
+
+      - name: Create GitHub Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.bump.outputs.new_version }}';
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: version,
+              name: `Release ${version}`,
+              generate_release_notes: true,
+            });
