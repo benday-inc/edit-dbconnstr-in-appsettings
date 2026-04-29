@@ -1,6 +1,6 @@
 {
   "name": "edit-dbconnstr-in-appsettings",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Edit database connection string in appsettings.json for a .NET Core application",
   "main": "lib/main.js",
