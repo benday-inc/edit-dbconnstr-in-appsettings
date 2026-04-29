@@ -41,6 +41,7 @@ jobs:
       - name: Bump version
         id: bump
         run: |
+          set -e
           NEW_VERSION=$(npm version ${{ inputs.version_bump }} --no-git-tag-version)
           echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "Bumped to ${NEW_VERSION}"
